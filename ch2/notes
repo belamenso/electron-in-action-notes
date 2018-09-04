@@ -1,0 +1,49 @@
+npm init # create a package.json via a console ui
+npm install electron --save # install electron here (to node_modules) and write down dependencies
+
+scripts in package.json: add a new property "something": "echo a"
+and then npm somehting will do it
+
+const { app } = require('electron')
+app.on('ready', () => { console.log('dsfs')})
+
+app is the most important module, it emits events, we use it to quit and so on
+
+BrowserWindow module is for rendering
+
+by convention, if something starts with a capital letter (like BrowserWindow), it should be called with new
+
+all BrowserWindow s have 'webContents' property used for e.g. loading HTML files
+
+loading a file:
+    mainWindow.webContents.loadURL(`file://${__dirname}/index.html`);
+
+
+in renderer processes you have access both to browser APIs and to node
+
+__dirname works in all of node
+
+require('./renderer') # this is how you require a script from a rendered HTML
+
+CSS:
+    font: menu # system font in CSS, only in Chrome
+
+you don't have to worry about browser compatibility, worry only about the browser you are shipping
+
+traditional browser doesn't allow you to make a request to the third-party servers (so you typically route a request from the client to the foreign server by your own server)
+
+In Electron we're free to make all the cross-site requests we want
+
+Ctrl+shift+i to open developer tools
+errors from renderer side will not show up in the console (linux), you have to look for them in the developer tools in the running electron app
+
+const { shell } = require('electron')
+for high-level desktop interaction
+
+linkSection.addEventListener('click', (event) => {
+    if (event.target.href) {
+        event.preventDefault()
+        shell.openExternal(event.target.href)
+    }   
+})
+
