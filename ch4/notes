@@ -1,0 +1,75 @@
+dialogs and reading files:
+
+	const getFileFromUser = () => {
+		const files = dialog.showOpenDialog({
+			properties: ['openFile'],
+			filters: [
+				{ name: 'Text Files', extensions: ['txt'] },
+				{ name: 'Markdown Files', extensions: ['md', 'markdown'] }
+			]
+		}); 
+
+		if (!files) return
+
+		const file = files[0]
+		const content = fs.readFileSync(file).toString()
+
+		console.log(content)
+	}
+
+one main process, possibly many renderer processes
+this ensures no races to dbs, fs and so on
+only a subset of all electron modules is available for one of these. There is also a non-empty intersection (checkout the graphics)
+
+WebSockets, WebRTC - look into them, they allow two-way communication between the client and the server, and even between servers
+
+remote module
+simple way to do IPC between main and renderer
+works as a proxy to the main process
+mirrors modules only accessible from main
+only accessible in the renderer process
+sends synchronous message to the main, executes there, returns
+
+const electron = require('electron')
+const remote = electron.remote
+# now things that are usually electron.XX in main are remote XX 
+
+commonJS modules:
+exports object (starts out empty)
+	basic_math.js
+		exports.addTwo = n => n + 2
+	main.js
+		const bm = require('./basic_math.js')
+		bm.addTwo(5)
+
+require doesn't work across processes (main vs renderers)
+remote.require
+you can use pattern matching
+	const { remote } = require('electron')
+	const mainProcess = remote.require('./main.js')
+
+const fun = exports.fun = () => { ...
+
+some events you can listen to on webContetns:
+	did-start-loading did-stop-loading dom-ready blur focus resize enter-full-screen leave-full-screen
+
+window.loadURL() reload() print() printToPDF() are aliases to window.webContents.loadURL()...
+
+webContents.send() # communicate from main to renderers
+1. channel (arbitrary string)
+2+ data
+
+Electron has 2 basic modules for sendind messages: ipcRenderer ipcMain
+(each available only in its process)
+
+main
+	mainWindow.webContents.send('file-opened', file, content)
+renderer
+	ipcRenderer.on('file-opened', (event, file, content) => {
+		markdownView.value = content
+		renderMarkdownToHTML(content)
+	}
+
+electron.dialog module
+usually return an array of files (even if you can pick only one)
+
