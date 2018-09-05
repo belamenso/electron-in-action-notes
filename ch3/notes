@@ -1,0 +1,54 @@
+this is minimal run:
+	const { app, BrowserWindow } = require('electron')
+
+	let mainWindow = null
+
+	app.on('ready', () => {
+		mainWindow = new BrowserWindow()
+
+		mainWindow.loadURL(`file://${__dirname}/index.html`)
+
+		mainWindow.on('closed', () => {
+			mainWindow = null
+		})  
+	})
+
+flexbox: e.g. easier column layouts (?)
+
+box-sizing: border-box
+	respect dimentions, e.g. width=200, margin=50 is not 300 (?)
+
+outline: none # remove the unnatural glow around an element
+
+make it not flash a white screen:
+	let mainWindow = new BrowserWindow({ show: false })
+	mainWindow.once('ready-to-show', () => mainWindow.show())
+
+(new BrowserWindow).webContents.openDevTools()
+
+debugging the main process is harder, you can use --debug (opens on port 5858)
+
+vs code
+	c-s-b will open launching configuration, you can launch your electron app like that,
+use this code in launch.json (left pane, debug, gear) to set up debugging:
+	{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Main Process",
+        "type": "node",
+        "request": "launch",
+        "cwd": "${workspaceRoot}",
+        "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+        "windows": {
+          "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron"
+        },
+        "program": "${workspaceRoot}/app/main.js",
+        "protocol": "inspector",
+      }
+    ]
+  }
+you can set breakpoints and f5 to run it
+
+also electron in webstorm works quite well
+
