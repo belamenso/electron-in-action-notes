@@ -13,3 +13,33 @@ if x and y are still undefined, then everything will be fine (default behavior)
 
 process.platform == 'darwin'
 
+(new BrowserWindow).setTitle('sdfafds')
+
+app.on('will-finish-launching', () => {
+  app.on('open-file', (event, file) => { //
+    const win = createWindow();
+    win.once('ready-to-show', () => {
+      openFile(win, file); // custom
+    });
+  });
+});
+
+app.getPath('documents') # works across 3 platforms
+home desktop downloads pictures videos music temp
+exe # location of the current executable
+appData (application's data dir)
+userData (appData with name dependent on application, e.g. ~/Library/Application/Support/app-name, name from your package.json)
+
+you can override these paths (app.setPath(name, newPath)), but only for the ones that are above (no custom)
+
+preventing electron app from loading everything you drop on it
+	document.addEventListener('dragstart', event => event.preventDefault());
+	document.addEventListener('dragover', event => event.preventDefault());
+	document.addEventListener('dragleave', event => event.preventDefault());
+	document.addEventListener('drop', event => event.preventDefault());
+
+When the user drags a file over the browser window, it rapid fires dragover events until the user either leaves the target area—in which case, a dragleave event—or the user lifts their finger from the mouse or trackpad and drops the file onto the target area, which triggers a drop event.
+
+fs.watchFile # file changes watchdog
+
+maps can use any object or a value as a key
