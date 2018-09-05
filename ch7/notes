@@ -1,0 +1,30 @@
+menus are considered part of the main process
+
+electron.Menu
+    .buildFromTemplate (of JS objects)
+
+electron default menu is all or nothing, if you add only one original item, you loose the default one
+(e.g. c-w disappears as you remove the default menu and no longer closes an app)
+
+you can set shortcuts in the menu template
+you can give roles out of
+    undo redo cut copy paste selectall minimize close
+there are some additional roles for macOS's application menu
+
+{
+    label: 'Save File',
+    accelerator: 'CommandOrControl+S',
+    click(item, focusedWindow) {
+        mainProcess.saveMarkdown(focusedWindow);
+    },
+}
+
+Electron allows developers to define custom context menus when the user right-clicks on a specific part of the DOM.
+
+markdownView.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    alert('One day, a context menu will go here.');
+});
+
+listen on window instead on DOM node to have a universal DOM menu
+
