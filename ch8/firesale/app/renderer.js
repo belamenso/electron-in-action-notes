@@ -1,5 +1,5 @@
 const marked = require('marked')
-const { remote, ipcRenderer } = require('electron')
+const { remote, ipcRenderer, shell } = require('electron')
 const { Menu } = remote
 const mainProcess = remote.require('./main.js')
 const path = require('path')
@@ -148,36 +148,48 @@ ipcRenderer.on('file-changed', (event, file, content) => {
     renderFile(file, content);
 });
 
-const markdownContextMenu = Menu.buildFromTemplate([
-    { label: 'Open file', click() { mainProcess.getFileFromUser() } },
-    { type: 'separator' },
-    { label: 'Cut', role: 'cut' },
-    { label: 'Copy', role: 'copy' },
-    { label: 'Paste', role: 'paste' },
-    { label: 'Select All', role: 'selectall' },
-]);
-
 markdownView.addEventListener('contextmenu', (event) => {
     event.preventDefault()
-    markdownContextMenu.popup()
+    createContextMenu().popup()
 });
 
 const showFile = () => {
-    if (!filePath) {
-        alert('This file has not been saved to the file system.')
-        return
+    if (!filePath) { //
+        return alert('This file has not been saved to the file system.');
     }
-    shell.showItemInFolder(filePath)
-}
+    shell.showItemInFolder(filePath); //
+};
 
 const openInDefaultApplication = () => {
     if (!filePath) {
-        alert('This file has not been saved to the file system.')
-        return
+        return alert('This file has not been saved to the file system.');
     }
-    shell.openItem(filePath)
-}
+    shell.openItem(filePath); //
+};
 
-showFileButton.addEventListener('click', showFile)
-openInDefaultButton.addEventListener('click', openInDefaultApplication)
+showFileButton.addEventListener('click', showFile); //
+openInDefaultButton.addEventListener('click', openInDefaultApplication);
 
+ipcRenderer.on('show-file', showFile)
+ipcRenderer.on('open-in-default', openInDefaultApplication)
+
+const createContextMenu = () => {
+    return Menu.buildFromTemplate([
+        { label: 'Open File', click() { mainProcess.getFileFromUser(); } },
+        {
+            label: 'Show File in Folder',
+            click: showFile,
+            enabled: !!filePath
+        },
+        {
+            label: 'Open in Default',
+            click: openInDefaultApplication,
+            enabled: !!filePath
+        },
+        { type: 'separator' },
+        { label: 'Cut', role: 'cut' },
+        { label: 'Copy', role: 'copy' },
+        { label: 'Paste', role: 'paste' },
+        { label: 'Select All', role: 'selectall' },
+    ]);
+};

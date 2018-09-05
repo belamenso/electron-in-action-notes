@@ -33,18 +33,18 @@ const template = [
                     mainProcess.saveHtml(focusedWindow);
                 },
             },
-            { type: 'separator' },
+            { type: 'separator' }, //
             {
                 label: 'Show File',
                 accelerator: 'Shift+CommandOrControl+S',
                 click(item, focusedWindow) {
-                    if (!focusedWindow) {
+                    if (!focusedWindow) { //
                         return dialog.showErrorBox(
                             'Cannot Show File\'s Location',
                             'There is currently no active document show.'
                         );
                     }
-                    focusedWindow.webContents.send('show-file');
+                    focusedWindow.webContents.send('show-file'); //
                 },
             },
             {
@@ -57,7 +57,7 @@ const template = [
                             'There is currently no active document to open.'
                         );
                     }
-                    focusedWindow.webContents.send('open-in-default');
+                    focusedWindow.webContents.send('open-in-default'); //
                 },
             },
         ],

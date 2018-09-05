@@ -1,0 +1,8 @@
+Electron allows us to integrate with the operating system to trigger the file browser to navigate to the location of a given file or to open a file path in the default application for that file type.
+
+shell is available for main and renderers
+
+shell.showItemInFolder(path)
+shell.openItem(path)
+
+you get context menus with different items and different available positions by dynamically generating them from functions before showing them
