@@ -1,0 +1,9 @@
+electron compile
+    transpilation on the fly
+    it picks a transpiler based on the extention (e.g. .coffee for CoffeeScript)
+
+live reload in electron-compile.enableLiveReload (import it)
+
+enableLiveReload()
+enableLiveReload({strategy: 'react-hmr'}) - React specific
+
