@@ -1,0 +1,12 @@
+Tray module
+    like a peer to BrowserWindow
+
+declare important things (like main windows, trays) in the global scope to prevent it from being garbage collected
+
+you can make global shortcuts (globalShortcut module)
+
+notification API
+
+!! trick:
+you can make a new browserWindow that is never shown, and have some code there, that is running in the background (e.g. for displaying notifications or computing something)
+
