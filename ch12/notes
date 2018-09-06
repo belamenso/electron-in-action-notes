@@ -1,0 +1,10 @@
+hooks in package.json
+    pretest test posttest
+
+knex.js - node's integration with sqlite, postgress...
+
+path.join(app.getPath('userData'), 'dbfile.sqlite')
+
+IndexedDB - key-value store (stores JS objects)
+
+versioned database - if you update your webapp, the new code might corrupt user's database and you need safeguards built in for that
