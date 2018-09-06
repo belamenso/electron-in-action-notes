@@ -1,0 +1,5 @@
+electron packager is an abstraction above numerous tedious steps
+
+--asar option to concatenate all the files binary into one + add JSON object on the beginning that contains the offsets
+
+! there's no protection against looking at the HTML, CSS, JS of an electron app in any Electron application!
