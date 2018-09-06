@@ -1,0 +1,4 @@
+selenium - automate browser
+webdriver.io - bindigns for selenium allowing it to work
+spectron - additional functionality that integrates WebdriverIO into Electron
+
